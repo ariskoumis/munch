@@ -117,6 +117,7 @@ app.controller('AppCtrl', function ($timeout, $scope, $ionicModal, $timeout) {
 
 app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", function ($scope, $http, $rootScope, $timeout) {
     $rootScope.inventory = []; //User's Ingredients
+    $rootScope.recipeArray = [];
     $scope.url = "http://www.recipepuppy.com/api/?i="; //Initial URL
     $scope.ingredient = 'Enter Ingredient Here!'; //Initial content of Input Box
     $rootScope.counter = 1 //Increases api page, incremented upon reaching bottom of page
@@ -140,8 +141,10 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
         $http.get($scope.url.slice(0, -1) + '&p=' + $rootScope.counter) //Slices api correctly
             .success(function (data) {
             $rootScope.counter += 1
-            $rootScope.recipeArray = data.results;
-            $rootScope.maxMissing = 2 
+            data.results.forEach(function(recipe) {
+                $rootScope.recipeArray.push(recipe);
+            });
+            $rootScope.maxMissing = 4
             $rootScope.recipeArray.forEach(function (recipe) { //Eval. each recipe
                 recipe.ingredientArray = recipe.ingredients.split(", ");
                 matchingCounter = 0
@@ -166,7 +169,15 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
                 if (recipe.missingIngredients.length === 0) { 
                     recipe.missingIngredients.push('Nothing!')
                 }
-            })
+            });
+            for (i=$rootScope.recipeArray.length-1;i>=0;i--) {
+                console.log($rootScope.recipeArray[i].missingIngredients.length)
+                console.log($rootScope.maxMissing)
+                if ($rootScope.recipeArray[i].missingIngredients.length >= $rootScope.maxMissing) {
+                    $rootScope.recipeArray.splice(i,1)
+                }
+            }
+            $scope.checkAmount();
             console.log('Get request successful.')
         })
             .error(function (data) {
@@ -175,6 +186,11 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
     }
     $scope.openLink = function (link) {
         window.open(link, '_blank');
+    }
+    $scope.checkAmount = function() {
+        if ($rootScope.recipeArray.length < 15) {
+            $scope.loadMore();
+        }
     }
     $scope.loadMore = function () {
         $timeout(function () {
