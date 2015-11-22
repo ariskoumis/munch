@@ -1,0 +1,31 @@
+<ion-view view-title="Pantry">
+    <ion-content>
+        <div class="header bar-subheader pantryTitle"> My Ingredients</div>
+
+        <div id="Pantry">
+            <ion-list show-delete='false' can-swipe='true' class='list list-inset'>
+                <ion-item ng-repeat='content in inventory'>
+                    {{content}}
+                    <ion-option-button ng-click="deleteIngredient($index)" class="button-assertive icon ion-trash-a"></ion-option-button>
+                </ion-item>
+            </ion-list> 
+            <span>    
+            <form id = 'pantryAdd' ng-submit="add()">
+                <div class='item item-input inset'>
+                    <label class='item-input-wrapper'>
+                        <input type='text' form= 'pantryAdd' ng-model='ingredient' onfocus="this.value = ''">
+                    </label>
+                </div>
+            </form>
+            </span>
+            <br>
+
+            <div class="bar bar-header">
+                <h1 class="title">My Ingredients</h1>
+            </div>
+            <a id= 'PantrySubmit' ng-href="#/app/recipes" ng-click='getData()' class="button button-block button-positive">
+                Find Recipes!
+            </a>
+        </div>
+    </ion-content>
+</ion-view>

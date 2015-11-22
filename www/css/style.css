@@ -1,0 +1,31 @@
+.red {
+	color:red;
+}
+
+.blue {
+	color:blue;
+}
+
+.grey {
+	color:grey;
+	text-align: center;
+}
+
+div.pantryTitle {
+	font-weight: 500;
+    font-family: "Questrial", sans-serif;
+    line-height: 1.2;
+    color:grey;
+}
+
+.icon-grey {
+	color:grey;
+}
+.recipeInfo {
+	border: 0;
+	padding: 0;
+}
+
+.inputArea {
+	line-height: 5px
+}

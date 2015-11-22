@@ -1,0 +1,21 @@
+<ion-view view-title="Recipes">
+  <ion-content>
+  	<ion-list>
+        <div ng-repeat="item in recipeArray track by $index" 
+           ng-click="openLink('{{item.href}}')"
+           class="item item-thumbnail-left"
+           >
+          <img style='border-radius: 50%;' ng-src="{{item.thumbnail}}">
+          <ion-item class='item-text-wrap recipeInfo'>
+            <h2>{{ item.title }}</h2>
+            <h4 class='red'>Missing: {{item.missingIngredients.join(", ")}}</h4>
+          </ion-item>
+        </div>
+      </ion-list>
+       <ion-infinite-scroll
+        on-infinite="loadMore()"
+        distance="1%"
+        immediate-check='False'>
+      </ion-infinite-scroll>
+  </ion-content>
+</ion-view>
