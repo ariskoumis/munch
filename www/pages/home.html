@@ -1,5 +1,14 @@
-<ion-view view-title="Home">
-  <ion-content>
-    <h1>Welcome to Munch!</h1>
+<ion-view view-title="Home" hide-nav-bar="true">
+  <ion-content scroll="false">
+    <div class="over-lay">
+      <video autoplay loop class="video" webkit-playsinline>
+        <source src="video/background.mp4" type='video/mp4; codecs="h.264"' >
+        <source src="video/background.webm" type="video/webm">
+      </video>
+      <div class="logo">
+        <img ng-src="img/foodIcon.svg" alt="three">
+        <h1>Munch</h1>
+      </div>
+    </div>
   </ion-content>
 </ion-view>
