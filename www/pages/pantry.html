@@ -1,7 +1,12 @@
 <ion-view view-title="Pantry">
+    <ion-nav-view>
+    <ion-nav-buttons side="primary">
+      <button class="button" ng-click="doSomething()">
+        I'm a button on the primary of the navbar!
+      </button>
+    </ion-nav-buttons>
     <ion-content>
         <div class="header bar-subheader pantryTitle"> My Ingredients</div>
-
         <div id="Pantry">
             <ion-list show-delete='false' can-swipe='true' class='list list-inset'>
                 <ion-item ng-repeat='content in inventory track by $index'>

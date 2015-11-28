@@ -145,6 +145,7 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
         })
         $http.get($scope.url.slice(0, -1) + '&p=' + $rootScope.pageCounter) //Slices api correctly
             .success(function (data) {
+            console.log('Lets go')
             $rootScope.pageCounter += 1
             data.results.forEach(function(recipe) {
                 $rootScope.recipeArray.push(recipe);
@@ -152,7 +153,6 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
             $rootScope.maxMissing = 4
             $rootScope.recipeArray.forEach(function (recipe) { //Eval. each recipe
                 recipe.ingredientArray = recipe.ingredients.split(", ");
-                matchingCounter = 0
                 if (recipe.thumbnail === '') {
                     recipe.thumbnail = 'http://www.colonialpoint.com/hp_wordpress/wp-content/uploads/2014/04/food-icon.png';
                 }
@@ -180,11 +180,15 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
                     $rootScope.recipeArray.splice(i,1)
                 }
             }
+            $scope.$broadcast('scroll.infiniteScrollComplete');
             $scope.checkAmount();
             console.log('Get request successful.')
         })
             .error(function (data) {
+            $rootScope.pageCounter += 1
             console.log("Get request failed.")
+            $scope.$broadcast('scroll.infiniteScrollComplete');
+
         })
     }
     $scope.openLink = function (link) {
@@ -193,14 +197,15 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
     $scope.checkAmount = function() {
         if ($rootScope.recipeArray.length < 15) {
             $scope.loadMore();
+            $scope.$broadcast('scroll.infiniteScrollComplete');
         }
     }
     $scope.loadMore = function () {
         if ($rootScope.inventory.length > 0) {
             $timeout(function () {
                 $scope.getData();
-                $scope.$broadcast('scroll.infiniteScrollComplete');
             }, 2000);
         }
+    $scope.$broadcast('scroll.infiniteScrollComplete');
     }
 }])
