@@ -37,7 +37,7 @@ var app = angular.module('starter', ['ionic', 'ngSanitize'])
         views: {
             'menuContent': {
                 templateUrl: 'pages/recipes.html',
-                controller: 'PantryCtrl',
+                controller: 'PantryCtrl'
             }
         }
     })
@@ -115,32 +115,37 @@ app.controller('AppCtrl', function ($timeout, $scope, $ionicModal, $timeout) {
     };
 })
 
+
 app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", function ($scope, $http, $rootScope, $timeout) {
-    $rootScope.inventory = []; //User's Ingredients
-    $rootScope.recipeArray = [];
-    $scope.url = "http://www.recipepuppy.com/api/?i="; //Initial URL
+    if (typeof $rootScope.inventory === 'undefined') {
+        $rootScope.inventory = []; //User's Ingredients
+        $rootScope.recipeArray = [];
+        $scope.url = "http://www.recipepuppy.com/api/?i="; //Initial URL
+        $scope.ingredient = 'Enter Ingredient Here!'; //Initial content of Input Box
+        $rootScope.pageCounter = 1 //Increases api page, incremented upon reaching bottom of page
+    }
     $scope.ingredient = 'Enter Ingredient Here!'; //Initial content of Input Box
-    $rootScope.counter = 1 //Increases api page, incremented upon reaching bottom of page
     $scope.shouldShowDelete = false; //Trash icon setting in pantry add
     $scope.listCanSwipe = true //Trash icon setting in pantry add
     $scope.add = function() {
         if ($rootScope.inventory.indexOf(this.ingredient) < 0 && this.ingredient != '') {
             $rootScope.inventory.push(this.ingredient);
-            $scope.url += this.ingredient + ',';
             this.ingredient = ''; //Resets text box
+            $rootScope.pageCounter = 1
+            $rootScope.recipeArray = []
         }
     };
     $scope.deleteIngredient = function ($index) {
         $rootScope.inventory.splice($index, 1);
+    }
+    $scope.getData = function () {
         $scope.url = 'http://www.recipepuppy.com/api/?i=';
         $rootScope.inventory.forEach(function (item) {
             $scope.url += (item + ',')
         })
-    }
-    $scope.getData = function () {
-        $http.get($scope.url.slice(0, -1) + '&p=' + $rootScope.counter) //Slices api correctly
+        $http.get($scope.url.slice(0, -1) + '&p=' + $rootScope.pageCounter) //Slices api correctly
             .success(function (data) {
-            $rootScope.counter += 1
+            $rootScope.pageCounter += 1
             data.results.forEach(function(recipe) {
                 $rootScope.recipeArray.push(recipe);
             });
@@ -171,8 +176,6 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
                 }
             });
             for (i=$rootScope.recipeArray.length-1;i>=0;i--) {
-                console.log($rootScope.recipeArray[i].missingIngredients.length)
-                console.log($rootScope.maxMissing)
                 if ($rootScope.recipeArray[i].missingIngredients.length >= $rootScope.maxMissing) {
                     $rootScope.recipeArray.splice(i,1)
                 }
@@ -193,9 +196,11 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
         }
     }
     $scope.loadMore = function () {
-        $timeout(function () {
-            $scope.getData();
-            $scope.$broadcast('scroll.infiniteScrollComplete');
-        }, 2000);
+        if ($rootScope.inventory.length > 0) {
+            $timeout(function () {
+                $scope.getData();
+                $scope.$broadcast('scroll.infiniteScrollComplete');
+            }, 2000);
+        }
     }
 }])

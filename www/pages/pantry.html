@@ -4,7 +4,7 @@
 
         <div id="Pantry">
             <ion-list show-delete='false' can-swipe='true' class='list list-inset'>
-                <ion-item ng-repeat='content in inventory'>
+                <ion-item ng-repeat='content in inventory track by $index'>
                     {{content}}
                     <ion-option-button ng-click="deleteIngredient($index)" class="button-assertive icon ion-trash-a"></ion-option-button>
                 </ion-item>

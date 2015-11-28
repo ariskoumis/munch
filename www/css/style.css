@@ -86,7 +86,7 @@ video {
 }
 
 .logo img{
-	width: 30%;
+	width: 40%;
 	height: auto;
 	display: block;
 	margin: 0 auto;
@@ -96,5 +96,5 @@ video {
 .logo h1{
 	text-align: center;
 	color: #fff;
-	font-family: 'a_love_of_thunderregular'
+	font-family: 'Questrial'
 }
