@@ -7,68 +7,63 @@
 var app = angular.module('starter', ['ionic', 'ngSanitize'])
 
     .run(function ($ionicPlatform) {
-    $ionicPlatform.ready(function () {
-        // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-        // for form inputs)
-        if (window.cordova && window.cordova.plugins.Keyboard) {
-            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-            cordova.plugins.Keyboard.disableScroll(true);
+        $ionicPlatform.ready(function () {
+            // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+            // for form inputs)
+            if (window.cordova && window.cordova.plugins.Keyboard) {
+                cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+                cordova.plugins.Keyboard.disableScroll(true);
 
-        }
-        if (window.StatusBar) {
-            // org.apache.cordova.statusbar required
-            StatusBar.styleDefault();
-        }
-    });
-})
+            }
+            if (window.StatusBar) {
+                // org.apache.cordova.statusbar required
+                StatusBar.styleDefault();
+            }
+        });
+    })
 
     .config(function ($stateProvider, $urlRouterProvider) {
-    $stateProvider
-
-    .state('app', {
-        url: '/app',
-        abstract: true,
-        templateUrl: 'pages/menu.html',
-        controller: 'AppCtrl'
-    })
-
-        .state('app.recipes', {
-        url: '/recipes',
-        views: {
-            'menuContent': {
-                templateUrl: 'pages/recipes.html',
-                controller: 'PantryCtrl'
-            }
-        }
-    })
-
-        .state('app.home', {
-        url: '/home',
-        views: {
-            'menuContent': {
-                templateUrl: 'pages/home.html',
-            }
-        }
-    })
-
-        .state('app.pantry', {
-        url: '/pantry',
-        views: {
-            'menuContent': {
-                templateUrl: 'pages/pantry.html',
-                controller: 'PantryCtrl'
-            }
-        }
-    })
-
-        .state('app.about', {
-        url: '/about',
-        views: {
-            'menuContent': {
-                templateUrl: 'pages/about.html',
-            }
-        }
-    })
+        $stateProvider
+            .state('app', {
+                url: '/app',
+                abstract: true,
+                templateUrl: 'pages/menu.html',
+                controller: 'AppCtrl'
+            })
+            .state('app.recipes', {
+                url: '/recipes',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'pages/recipes.html',
+                        controller: 'PantryCtrl'
+                    }
+                }
+            })
+            .state('app.home', {
+                url: '/home',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'pages/home.html',
+                    }
+                }
+            })
+            .state('app.pantry', {
+                url: '/pantry',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'pages/pantry.html',
+                        controller: 'PantryCtrl'
+                    }
+                }
+            })
+            .state('app.about', {
+                url: '/about',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'pages/about.html',
+                    }
+                }
+            });
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app/home');
@@ -113,6 +108,7 @@ app.controller('AppCtrl', function ($timeout, $scope, $ionicModal, $timeout) {
             $scope.closeLogin();
         }, 1000);
     };
+
 })
 
 
