@@ -143,11 +143,8 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
             .success(function (data) {
             console.log('Lets go')
             $rootScope.pageCounter += 1
-            data.results.forEach(function(recipe) {
-                $rootScope.recipeArray.push(recipe);
-            });
             $rootScope.maxMissing = 4
-            $rootScope.recipeArray.forEach(function (recipe) { //Eval. each recipe
+            data.results.forEach(function (recipe) { //Eval. each recipe
                 recipe.ingredientArray = recipe.ingredients.split(", ");
                 if (recipe.thumbnail === '') {
                     recipe.thumbnail = 'http://www.colonialpoint.com/hp_wordpress/wp-content/uploads/2014/04/food-icon.png';
@@ -166,12 +163,12 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
                         recipe.missingIngredients.push(item); //add recipe ingred. to missing igred. array
                     }
                 });
-
                 if (recipe.missingIngredients.length === 0) { 
                     recipe.missingIngredients.push('Nothing!')
                 }
+                $rootScope.recipeArray.push(recipe);
             });
-            for (i=$rootScope.recipeArray.length-1;i>=0;i--) {
+            for (var i = $rootScope.recipeArray.length - 1; i >=0; i--) {
                 if ($rootScope.recipeArray[i].missingIngredients.length >= $rootScope.maxMissing) {
                     $rootScope.recipeArray.splice(i,1)
                 }
@@ -180,11 +177,10 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
             $scope.checkAmount();
             console.log('Get request successful.')
         })
-            .error(function (data) {
+        .error(function (data) {
             $rootScope.pageCounter += 1
             console.log("Get request failed.")
             $scope.$broadcast('scroll.infiniteScrollComplete');
-
         })
     }
     $scope.openLink = function (link) {
@@ -192,16 +188,8 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
     }
     $scope.checkAmount = function() {
         if ($rootScope.recipeArray.length < 15) {
-            $scope.loadMore();
+            $scope.getData();
             $scope.$broadcast('scroll.infiniteScrollComplete');
         }
-    }
-    $scope.loadMore = function () {
-        if ($rootScope.inventory.length > 0) {
-            $timeout(function () {
-                $scope.getData();
-            }, 2000);
-        }
-    $scope.$broadcast('scroll.infiniteScrollComplete');
     }
 }])
