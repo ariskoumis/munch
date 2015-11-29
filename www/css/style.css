@@ -11,98 +11,100 @@
     font-weight: normal;
     font-style: normal;
 }
-/*
-.pane, .view{
-	background: #131313;
-}*/
 
-.button-group{
-	position: absolute;
-	bottom: 40px;
+.button-group {
+    position: absolute;
+    bottom: 40px;
 }
 
-.button-group button{
+.item-input {
+    padding: 0.5em;
+}
 
-	border: none;
-	background-color:rgba(0,0,0,0.5);
-	box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.23), 0px 3px 6px 0px rgba(0,0,0,0.16);
-	border-radius: 5px;
-	width: 90%;
-	margin: 0 auto;
-	display: block;
-	left: 50%;
-	text-transform: uppercase;
-	color: white;
+.button-group button {
+    border: none;
+    background-color:rgba(0,0,0,0.5);
+    box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.23), 0px 3px 6px 0px rgba(0,0,0,0.16);
+    border-radius: 5px;
+    width: 90%;
+    margin: 0 auto;
+    display: block;
+    left: 50%;
+    text-transform: uppercase;
+    color: white;
 }
 
 .red {
-	color:red;
+    color:red;
 }
 
 .blue {
-	color:blue;
+    color:blue;
 }
 
 .grey {
-	color:grey;
-	text-align: center;
+    color:grey;
+    text-align: center;
 }
 
 div.pantryTitle {
-	font-weight: 500;
+    font-weight: 500;
     font-family: "Questrial", sans-serif;
     line-height: 1.2;
     color:grey;
 }
 
 .icon-grey {
-	color:grey;
+    color:grey;
 }
 .recipeInfo {
-	border: 0;
-	padding: 0;
+    border: 0;
+    padding: 0;
 }
 
 .inputArea {
-	line-height: 5px
+    line-height: 5px
 }
 
 .over-lay {
-	position: absolute;
-	top: 0;
-	left: 0;
-	display: block;
-	min-width: 100%; min-height: 100%;
-	background: rgba(19,19,19,.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    min-width: 100%; min-height: 100%;
+    background: rgba(19,19,19,.5);
 }
 
 video {
-	filter: url("data:image/svg+xml;utf9,<svg%20version='1.1'%20xmlns='http://www.w3.org/2000/svg'><filter%20id='blur'><feGaussianBlur%20stdDeviation='10'%20/></filter></svg>#blur");
-  	-webkit-filter:blur(5px);
-  	-ms-filter: blur(5px);
-  	-o-filter: blur(5px);
-  	filter:blur(10px);
-	position: fixed;
-	top: 0;
-	left: 0;
-	display: block;
-	min-width: 100%; min-height: 100%;
-	width: auto; height: auto; z-index: -100;
-	background: url("../img/placeholder.jpg") no-repeat;
-	background-size: cover;
+    filter: url("data:image/svg+xml;utf9,<svg%20version='1.1'%20xmlns='http://www.w3.org/2000/svg'><filter%20id='blur'><feGaussianBlur%20stdDeviation='10'%20/></filter></svg>#blur");
+    -webkit-filter:blur(5px);
+    -ms-filter: blur(5px);
+    -o-filter: blur(5px);
+    filter:blur(10px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: block;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    background: url("../img/placeholder.jpg") no-repeat;
+    background-size: cover;
 }
 
 .logo img{
-	width: 40%;
-	height: auto;
-	display: block;
-	margin: 0 auto;
-	margin-top: 30%;
+    width: 40%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    margin-top: 30%;
 }
 
 .logo h1{
-	font-size: 45px;
-	text-align: center;
-	color: #fff;
-	font-family: 'Questrial'
+    font-size: 45px;
+    text-align: center;
+    color: #fff;
+    font-family: 'Questrial'
 }
