@@ -1,9 +1,8 @@
 <ion-view view-title="Pantry">
-    <ion-nav-view>
-    <ion-nav-buttons side="primary">
-      <button class="button" ng-click="doSomething()">
-        I'm a button on the primary of the navbar!
-      </button>
+    <ion-nav-buttons side="right">
+        <a class="button button-clear" controller= 'AppCtrl' ng-click='filter()'>
+            Filter
+        </a>
     </ion-nav-buttons>
     <ion-content>
         <div class="header bar-subheader pantryTitle"> My Ingredients</div>
@@ -15,7 +14,7 @@
                 </ion-item>
             </ion-list> 
             <span>    
-            <form id='pantryAdd' ng-submit="add()">
+            <form id = 'pantryAdd' ng-submit="add()">
                 <div class='item item-input inset'>
                     <label class='item-input-wrapper'>
                         <input type='text' form= 'pantryAdd' ng-model='ingredient' onfocus="this.value = ''">
@@ -28,7 +27,7 @@
             <div class="bar bar-header">
                 <h1 class="title">My Ingredients</h1>
             </div>
-            <a id='PantrySubmit' ng-href="#/app/recipes" ng-click='getData()' class="button button-block button-positive">
+            <a id= 'PantrySubmit' ng-href="#/app/recipes" ng-click='getData()' class="button button-block button-positive">
                 Find Recipes!
             </a>
         </div>

@@ -30,6 +30,7 @@ var app = angular.module('starter', ['ionic', 'ngSanitize'])
                 templateUrl: 'pages/menu.html',
                 controller: 'AppCtrl'
             })
+            
             .state('app.recipes', {
                 url: '/recipes',
                 views: {
@@ -39,6 +40,17 @@ var app = angular.module('starter', ['ionic', 'ngSanitize'])
                     }
                 }
             })
+            
+            .state('app.filter', {
+                url: '/filter',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'pages/filter.html',
+                        controller: 'PantryCtrl'
+                    }
+                }
+            })
+
             .state('app.home', {
                 url: '/home',
                 views: {
@@ -47,6 +59,7 @@ var app = angular.module('starter', ['ionic', 'ngSanitize'])
                     }
                 }
             })
+            
             .state('app.pantry', {
                 url: '/pantry',
                 views: {
@@ -56,6 +69,7 @@ var app = angular.module('starter', ['ionic', 'ngSanitize'])
                     }
                 }
             })
+            
             .state('app.about', {
                 url: '/about',
                 views: {
@@ -64,6 +78,7 @@ var app = angular.module('starter', ['ionic', 'ngSanitize'])
                     }
                 }
             });
+
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app/home');
@@ -82,31 +97,20 @@ app.controller('AppCtrl', function ($timeout, $scope, $ionicModal, $timeout) {
     $scope.loginData = {};
 
     // Create the login modal that we will use later
-    $ionicModal.fromTemplateUrl('pages/login.html', {
+    $ionicModal.fromTemplateUrl('pages/filter.html', {
         scope: $scope
     }).then(function (modal) {
         $scope.modal = modal;
     });
 
-    // Triggered in the login modal to close it
-    $scope.closeLogin = function () {
+    // Triggered in the filter modal to close it
+    $scope.closeFilter = function () {
         $scope.modal.hide();
     };
 
     // Open the login modal
-    $scope.login = function () {
+    $scope.filter = function () {
         $scope.modal.show();
-    };
-
-    // Perform the login action when the user submits the login form
-    $scope.doLogin = function () {
-        console.log('Doing login', $scope.loginData);
-
-        // Simulate a login delay. Remove this and replace with your login
-        // code if using a login system
-        $timeout(function () {
-            $scope.closeLogin();
-        }, 1000);
     };
 
 })
@@ -141,17 +145,17 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
         })
         $http.get($scope.url.slice(0, -1) + '&p=' + $rootScope.pageCounter) //Slices api correctly
             .success(function (data) {
-            console.log('Lets go')
             $rootScope.pageCounter += 1
             data.results.forEach(function(recipe) {
                 $rootScope.recipeArray.push(recipe);
             });
-            $rootScope.maxMissing = 4
+            
             $rootScope.recipeArray.forEach(function (recipe) { //Eval. each recipe
                 recipe.ingredientArray = recipe.ingredients.split(", ");
                 if (recipe.thumbnail === '') {
-                    recipe.thumbnail = 'http://www.colonialpoint.com/hp_wordpress/wp-content/uploads/2014/04/food-icon.png';
+                    recipe.thumbnail = '../img/missingThumbnail.png';
                 }
+                console.log(recipe.thumbnail)
                 recipe.presentIngredients = {}
                 recipe.missingIngredients = []
                 $rootScope.inventory.forEach(function (inventoryItem) { //Each user ingred.
@@ -187,8 +191,11 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
 
         })
     }
+    $scope.showSelectValue = function(mySelect) {
+        console.log(mySelect);
+    }
     $scope.openLink = function (link) {
-        window.open(link, '_blank');
+        window.open(link, '_blank', 'location=yes');
     }
     $scope.checkAmount = function() {
         if ($rootScope.recipeArray.length < 15) {
