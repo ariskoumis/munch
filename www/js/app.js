@@ -155,7 +155,6 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
                 if (recipe.thumbnail === '') {
                     recipe.thumbnail = '../img/missingThumbnail.png';
                 }
-                console.log(recipe.thumbnail)
                 recipe.presentIngredients = {}
                 recipe.missingIngredients = []
                 $rootScope.inventory.forEach(function (inventoryItem) { //Each user ingred.
@@ -170,10 +169,10 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
                         recipe.missingIngredients.push(item); //add recipe ingred. to missing igred. array
                     }
                 });
-
                 if (recipe.missingIngredients.length === 0) { 
                     recipe.missingIngredients.push('Nothing!')
                 }
+                $rootScope.recipeArray.push(recipe);
             });
             for (i=$rootScope.recipeArray.length-1;i>=0;i--) {
                 if ($rootScope.recipeArray[i].missingIngredients.length >= $rootScope.maxMissing) {
@@ -199,16 +198,8 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
     }
     $scope.checkAmount = function() {
         if ($rootScope.recipeArray.length < 15) {
-            $scope.loadMore();
+            $scope.getData();
             $scope.$broadcast('scroll.infiniteScrollComplete');
         }
-    }
-    $scope.loadMore = function () {
-        if ($rootScope.inventory.length > 0) {
-            $timeout(function () {
-                $scope.getData();
-            }, 2000);
-        }
-    $scope.$broadcast('scroll.infiniteScrollComplete');
     }
 }])
