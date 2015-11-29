@@ -35,6 +35,7 @@ var app = angular.module('starter', ['ionic', 'ngSanitize'])
                 url: '/recipes',
                 views: {
                     'menuContent': {
+
                         templateUrl: 'pages/recipes.html',
                         controller: 'PantryCtrl'
                     }
@@ -56,6 +57,11 @@ var app = angular.module('starter', ['ionic', 'ngSanitize'])
                 views: {
                     'menuContent': {
                         templateUrl: 'pages/home.html',
+                        controller: function ($ionicHistory, $scope) {
+                            $ionicHistory.nextViewOptions({
+                                historyRoot: true
+                            });
+                        }
                     }
                 }
             })
@@ -193,7 +199,7 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
     $scope.showSelectValue = function(mySelect) {
         console.log(mySelect);
     }
-    $scope.openLink = function (link) {
+    $rootScope.openLink = function (link) {
         window.open(link, '_blank', 'location=yes');
     }
     $scope.checkAmount = function() {
