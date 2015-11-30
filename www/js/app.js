@@ -125,11 +125,19 @@ app.controller('AppCtrl', function ($rootScope, $timeout, $scope, $ionicModal, $
 app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", function ($scope, $http, $rootScope, $timeout) {
     if (typeof $rootScope.inventory === 'undefined') {
         $rootScope.inventory = []; //User's Ingredients
+        $rootScope.excludedInventory = []
         $rootScope.recipeArray = [];
         $scope.url = "http://www.recipepuppy.com/api/?i="; //Initial URL
+        $rootScope.excludedIngredient = 'Exclude ingredients?'
         $scope.ingredient = 'Enter Ingredient Here!'; //Initial content of Input Box
         $rootScope.pageCounter = 1 //Increases api page, incremented upon reaching bottom of page
         $rootScope.maxMissing = 4
+    }
+    $rootScope.excludeAdd = function() {
+        if ($rootScope.excludedInventory.indexOf(this.excludedIngredient) < 0 && this.excludedIngredient != '') {
+            $rootScope.excludedInventory.push(this.excludedIngredient);
+            this.excludedIngredient = ''; //Resets text box
+        }
     }
     $scope.ingredient = 'Enter Ingredient Here!'; //Initial content of Input Box
     $scope.shouldShowDelete = false; //Trash icon setting in pantry add
@@ -140,10 +148,13 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
             this.ingredient = ''; //Resets text box
             $rootScope.pageCounter = 1
             $rootScope.recipeArray = []
-        } console.log($rootScope.maxMissing)
+        }
     };
     $scope.deleteIngredient = function ($index) {
         $rootScope.inventory.splice($index, 1);
+    }
+    $rootScope.deleteExcludedIngredient = function($index) {
+        $rootScope.excludedInventory.splice($index, 1);
     }
     $scope.getData = function () {
         $scope.url = 'http://www.recipepuppy.com/api/?i=';

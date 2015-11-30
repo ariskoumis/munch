@@ -8179,6 +8179,7 @@ progress {
   min-width: 28px;
   min-height: 30px;
   font-size: 12px;
+  border-radius: 10px;
   line-height: 26px; }
   .button-small .icon:before, .button-small.icon:before, .button-small.icon-left:before, .button-small.icon-right:before {
     font-size: 16px;
