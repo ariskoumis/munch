@@ -12,6 +12,26 @@
     font-style: normal;
 }
 
+.dog-img {
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+}
+
+.hidden {
+    display:none;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.box-left {
+    margin-left:8px;
+    margin-right:auto;
+}
+
 .button-group {
     position: absolute;
     bottom: 40px;

@@ -5,7 +5,7 @@
         </a>
     </ion-nav-buttons>
     <ion-content>
-        <div class="header bar-subheader pantryTitle"> My Ingredients</div>
+        <div class="header bar-header pantryTitle"> My Ingredients</div>
         <div id="Pantry">
             <ion-list show-delete='false' can-swipe='true' class='list list-inset'>
                 <ion-item ng-repeat='content in inventory track by $index'>
@@ -27,7 +27,7 @@
             <div class="bar bar-header">
                 <h1 class="title">My Ingredients</h1>
             </div>
-            <a id='PantrySubmit' ng-href="#/app/recipes" ng-click='getData()' class="button button-block button-positive">
+            <a id='PantrySubmit' ng-href="#/app/recipes" ng-click='getData(); hideDogs()' class="button button-block button-positive">
                 Find Recipes!
             </a>
         </div>

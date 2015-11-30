@@ -129,6 +129,7 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
         $scope.url = "http://www.recipepuppy.com/api/?i="; //Initial URL
         $scope.ingredient = 'Enter Ingredient Here!'; //Initial content of Input Box
         $rootScope.pageCounter = 1 //Increases api page, incremented upon reaching bottom of page
+        $rootScope.maxMissing = 4
     }
     $scope.ingredient = 'Enter Ingredient Here!'; //Initial content of Input Box
     $scope.shouldShowDelete = false; //Trash icon setting in pantry add
@@ -139,7 +140,7 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
             this.ingredient = ''; //Resets text box
             $rootScope.pageCounter = 1
             $rootScope.recipeArray = []
-        }
+        } console.log($rootScope.maxMissing)
     };
     $scope.deleteIngredient = function ($index) {
         $rootScope.inventory.splice($index, 1);
@@ -191,6 +192,11 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
             $scope.$broadcast('scroll.infiniteScrollComplete');
 
         })
+    }
+    $scope.hideDogs = function() {
+        console.log('k')
+        angular.element(document.getElementById('noRecipes')).addClass('hidden');
+        angular.element(document.getElementById('recipes')).removeClass('hidden');
     }
     $scope.showSelectValue = function(mySelect) {
         console.log(mySelect);

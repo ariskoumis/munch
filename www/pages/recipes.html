@@ -1,7 +1,20 @@
 <ion-view view-title="Recipes">
-  <ion-content>
+  <ion-content class='has-header'>
   	<ion-list>
         </br>
+        <div id='noRecipes'>
+        <div class="bar bar-header">
+          <h1 class='title'>Ruh Roh. No recipes yet!</h1>
+        </div>
+        </br>
+          <img src='img/dog7.gif' class='dog-img' width='70%'>
+          <img src='img/dog2.gif' class='dog-img' width='70%'>
+          <img src='img/dog5.gif' class='dog-img' width='70%'>
+        <a ng-href="#/app/pantry" class="button button-block button-positive">
+          Back to Pantry
+        </a>
+        </div>
+        <div class='hidden' id='recipes'>
         <div ng-repeat="item in recipeArray track by $index" 
            ng-click="openLink('{{item.href}}')"
            class="item item-thumbnail-left"
@@ -18,5 +31,7 @@
         distance="1%"
         immediate-check='False'>
       </ion-infinite-scroll>
+      </div>
+
   </ion-content>
 </ion-view>
