@@ -193,14 +193,6 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
 
         })
     }
-    $scope.hideDogs = function() {
-        console.log('k')
-        angular.element(document.getElementById('noRecipes')).addClass('hidden');
-        angular.element(document.getElementById('recipes')).removeClass('hidden');
-    }
-    $scope.showSelectValue = function(mySelect) {
-        console.log(mySelect);
-    }
     $rootScope.openLink = function (link) {
         window.open(link, '_blank', 'location=yes');
     }
