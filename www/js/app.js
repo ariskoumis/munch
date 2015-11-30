@@ -90,7 +90,7 @@ var app = angular.module('starter', ['ionic', 'ngSanitize'])
     $urlRouterProvider.otherwise('/app/home');
 });
 
-app.controller('AppCtrl', function ($timeout, $scope, $ionicModal, $timeout) {
+app.controller('AppCtrl', function ($rootScope, $timeout, $scope, $ionicModal, $timeout) {
 
     // With the new view caching in Ionic, Controllers are only called
     // when they are recreated or on app start, instead of every page change.
@@ -155,11 +155,10 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
             data.results.forEach(function(recipe) {
                 $rootScope.recipeArray.push(recipe);
             });
-            
             $rootScope.recipeArray.forEach(function (recipe) { //Eval. each recipe
                 recipe.ingredientArray = recipe.ingredients.split(", ");
                 if (recipe.thumbnail === '') {
-                    recipe.thumbnail = '../img/missingThumbnail.png';
+                    recipe.thumbnail = 'img/missingThumbnail.png';
                 }
                 recipe.presentIngredients = {}
                 recipe.missingIngredients = []
