@@ -152,10 +152,7 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
         $http.get($scope.url.slice(0, -1) + '&p=' + $rootScope.pageCounter) //Slices api correctly
             .success(function (data) {
             $rootScope.pageCounter += 1
-            data.results.forEach(function(recipe) {
-                $rootScope.recipeArray.push(recipe);
-            });
-            $rootScope.recipeArray.forEach(function (recipe) { //Eval. each recipe
+            data.results.forEach(function (recipe) { //Eval. each recipe
                 recipe.ingredientArray = recipe.ingredients.split(", ");
                 if (recipe.thumbnail === '') {
                     recipe.thumbnail = 'img/missingThumbnail.png';
