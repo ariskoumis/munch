@@ -18,7 +18,7 @@ Welcome! Munch is an open source hybrid app designed by me, using [Ionic](http:/
      * `ionic emulate android`
 
 #Upcoming
-Munch is currently on the iOS and Google Play, but much more is still to come! Upcoming features an ingredient exclusion feature, bookmarking recipes, fixing misc. bugs and more! Be sure to keep an eye out on the issues tab, it will be getting quite a bit of usage ;)
+Munch is currently on the iOS and Google Play stores, but much more is still to come! Upcoming features an ingredient exclusion feature, bookmarking recipes, fixing misc. bugs and more! Be sure to keep an eye out on the issues tab, it will be getting quite a bit of usage ;)
 
 #Contact
 Feel free to get in touch with me if you have any questions/comments! I can be reached on here or by <a href="mailto:akoumis1@gmail.com">email</a>.
