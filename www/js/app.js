@@ -205,6 +205,7 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
         })
     }
     $rootScope.openLink = function (link) {
+        window.open = cordova.InAppBrowser.open;
         window.open(link, '_blank', 'location=yes');
     }
     $scope.checkAmount = function() {
