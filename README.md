@@ -1,3 +1,6 @@
+#**!!Important Update!!**
+As of December 15th, 2015, the Recipe Puppy API used by Munch is down, meaning the app does not provide users with recipes at all. To resolve this, I've been trying to get in contact with its creator, however if I don't recieve a response within the week then I will begin restructuring Munch using a different API. Stay tuned for updates.
+
 #Introduction
 Welcome! Munch is an open source hybrid app designed by me, using [Ionic](http://ionicframework.com/) and [Apache Cordova](https://cordova.apache.org/). The app presents a user with recipes they can make given their inventory. Recipes are pulled from the [Recipe Puppy API](http://www.recipepuppy.com/about/api/).
 
