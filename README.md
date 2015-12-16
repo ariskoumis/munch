@@ -1,4 +1,4 @@
-#**!!Important Update!!**
+#!!! Important Update !!!
 As of December 15th, 2015, the Recipe Puppy API used by Munch is down, meaning the app does not provide users with recipes at all. To resolve this, I've been trying to get in contact with its creator, however if I don't recieve a response within the week then I will begin restructuring Munch using a different API. Stay tuned for updates.
 
 #Introduction
