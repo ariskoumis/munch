@@ -12,6 +12,9 @@
         },
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.ariskoumis.munch"
+        },
+        "com.ionic.keyboard": {
+            "PACKAGE_NAME": "com.ariskoumis.munch_recipes"
         }
     },
     "dependent_plugins": {}

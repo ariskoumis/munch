@@ -90,6 +90,23 @@ var app = angular.module('starter', ['ionic', 'ngSanitize'])
     $urlRouterProvider.otherwise('/app/home');
 });
 
+app.directive('focusMe', function($timeout) {
+  return {
+    scope: { trigger: '=focusMe' },
+    link: function(scope, element) {
+      scope.$watch('trigger', function(value) {
+        if(value === true) { 
+          //console.log('trigger',value);
+          //$timeout(function() {
+            element[0].focus();
+            scope.trigger = false;
+          //});
+        }
+      });
+    }
+  };
+});
+
 app.controller('AppCtrl', function ($rootScope, $timeout, $scope, $ionicModal, $timeout) {
 
     // With the new view caching in Ionic, Controllers are only called
@@ -121,24 +138,47 @@ app.controller('AppCtrl', function ($rootScope, $timeout, $scope, $ionicModal, $
 
 })
 
+app.directive("detectFocus", function () {
+        return {
+            restrict: "A",
+            scope: {
+                onFocus: '&onFocus',
+                onBlur: '&onBlur',
+                focusOnBlur: '=focusOnBlur'
+            },
+            link: function (scope, elem) {
+
+                elem.on("focus", function () {
+                    scope.onFocus();
+                    scope.focusOnBlur = true;  //note the reassignment here, reason why I set '=' instead of '@' above.
+                });
+
+                elem.on("blur", function () {
+                    scope.onBlur();
+                    if (scope.focusOnBlur)
+                        elem[0].focus();
+                });
+            }
+        }
+    });
 
 app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", function ($scope, $http, $rootScope, $timeout) {
     if (typeof $rootScope.inventory === 'undefined') {
         $rootScope.inventory = []; //User's Ingredients
-        $rootScope.excludedInventory = []
+        $rootScope.excludeArray = [];
         $rootScope.recipeArray = [];
         $scope.url = "http://www.recipepuppy.com/api/?i="; //Initial URL
-        $rootScope.excludedIngredient = 'Exclude ingredients?'
         $scope.ingredient = 'Enter Ingredient Here!'; //Initial content of Input Box
-        $rootScope.pageCounter = 1 //Increases api page, incremented upon reaching bottom of page
-        $rootScope.maxMissing = 4
+        $rootScope.pageCounter = 1; //Increases api page, incremented upon reaching bottom of page
+        $rootScope.maxMissing = 4;
+        $rootScope.excludeIngredient = 'Enter Here!'
+        $rootScope.excludeToggle = false
+        $scope.focusManager = { focusInputOnBlur: true};
     }
-    $rootScope.excludeAdd = function() {
-        if ($rootScope.excludedInventory.indexOf(this.excludedIngredient) < 0 && this.excludedIngredient != '') {
-            $rootScope.excludedInventory.push(this.excludedIngredient);
-            this.excludedIngredient = ''; //Resets text box
-        }
-    }
+    $scope.shouldNotFocusOnBlur = function() {
+      $scope.focusManager.focusOnBlur = false;
+      console.log('hi')
+    };
     $scope.ingredient = 'Enter Ingredient Here!'; //Initial content of Input Box
     $scope.shouldShowDelete = false; //Trash icon setting in pantry add
     $scope.listCanSwipe = true //Trash icon setting in pantry add
@@ -146,15 +186,24 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
         if ($rootScope.inventory.indexOf(this.ingredient) < 0 && this.ingredient != '') {
             $rootScope.inventory.push(this.ingredient);
             this.ingredient = ''; //Resets text box
+            $rootScope.pageCounter = 1;
+            $rootScope.recipeArray = [];
+        }
+        focusInput=true
+
+    };
+    $rootScope.excludeAdd = function() {
+        if ($rootScope.excludeArray.indexOf(this.excludeIngredient) < 0 && this.excludeIngredient != '' && this.excludeIngredient != 'Enter Here!') {
+            $rootScope.excludeArray.push(this.excludeIngredient);
+            this.excludeIngredient = ''; //Resets text box
             $rootScope.pageCounter = 1
-            $rootScope.recipeArray = []
         }
     };
     $scope.deleteIngredient = function ($index) {
         $rootScope.inventory.splice($index, 1);
     }
-    $rootScope.deleteExcludedIngredient = function($index) {
-        $rootScope.excludedInventory.splice($index, 1);
+    $rootScope.deleteExcludeIngredient = function($index) {
+        $rootScope.excludeArray.splice($index, 1);
     }
     $scope.getData = function () {
         $scope.url = 'http://www.recipepuppy.com/api/?i=';
@@ -188,7 +237,17 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
                 }
                 $rootScope.recipeArray.push(recipe);
             });
-            for (i=$rootScope.recipeArray.length-1;i>=0;i--) {
+            if ($rootScope.excludeArray.length > 0) {
+                for(i=$rootScope.recipeArray.length-1; i>=0; i--) {
+                    $rootScope.excludeArray.forEach(function(excludeIngredient) {
+                        console.log($rootScope.recipeArray[i])
+                        if($rootScope.recipeArray[i].ingredients.toLowerCase().indexOf(excludeIngredient.toLowerCase()) != -1) {
+                            $rootScope.recipeArray.splice(i,1)
+                        }
+                    })
+                }
+            }
+            for (i=$rootScope.recipeArray.length-1; i>=0; i--) {
                 if ($rootScope.recipeArray[i].missingIngredients.length >= $rootScope.maxMissing) {
                     $rootScope.recipeArray.splice(i,1)
                 }
@@ -205,7 +264,10 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
         })
     }
     $rootScope.openLink = function (link) {
-        window.open = cordova.InAppBrowser.open;
+        // Open links in cordova's InAppBrowser on mobile devices
+        if (ionic.Platform.isIOS() || ionic.Platform.isAndroid() || ionic.Platform.isWindowsPhone()) {
+            window.open = cordova.InAppBrowser.open;    
+        }
         window.open(link, '_blank', 'location=yes');
     }
     $scope.checkAmount = function() {

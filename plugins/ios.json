@@ -7,6 +7,9 @@
         "files": {}
     },
     "installed_plugins": {
+        "com.ionic.keyboard": {
+            "PACKAGE_NAME": "com.ariskoumis.munch"
+        },
         "cordova-plugin-inappbrowser": {
             "PACKAGE_NAME": "com.ariskoumis.munch"
         },

@@ -5,11 +5,11 @@
         </a>
     </ion-nav-buttons>
     <ion-content>
-    <div class="bar bar-header"> <h1 class="title">My Ingredients</h1> </div>
-    </br>
-    </br>
+    <div class="bar bar-header"> <h1 class="grey title">My Ingredients</h1> </div>
         <div id="Pantry">
             <ion-list show-delete='false' can-swipe='true' class='list list-inset'>
+                </br>
+                </br>
                 <ion-item ng-repeat='content in inventory track by $index'>
                     {{content}}
                     <ion-option-button ng-click="deleteIngredient($index)" class="button-assertive icon ion-trash-a"></ion-option-button>
@@ -21,17 +21,33 @@
                     <label class="item-input-wrapper">
                         <input type="text" form='pantryAdd' ng-model='ingredient' onfocus="this.value=''">
                     </label>
-                    <input type='submit' class= 'button button-small' value='Add'>
+                    <input type='submit' class='button button-clear button-outline button-small' value='Add'>
                 </div>
             </form>
             </span>
             </br>
-
-
             </div>
             <a id='PantrySubmit' ng-href="#/app/recipes" ng-click='getData()' class="button button-block button-positive">
                 Find Recipes!
             </a>
+        </div>
+        <div class="card">
+            <div class="item item-text-wrap">
+                <icon class="ion-fork"></icon>
+                Enter each ingredient, one by one, and tap enter on your keyboard or the add button!
+            </div>
+        </div>
+        <div class="card">
+            <div class="item item-text-wrap">
+                <icon class="ion-knife"></icon>
+                For best results, enter in singular items e.g. tomato instead of tomatoes.
+            </div>
+        </div>
+        <div class="card">
+            <div class="item item-text-wrap">
+                <icon class="ion-spoon"></icon>
+                To delete an ingredient, swipe right on it and click the trash icon!
+            </div>
         </div>
     </ion-content>
 </ion-view>
