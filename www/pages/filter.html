@@ -41,9 +41,9 @@
             <form id = 'excludeAdd' ng-submit="excludeAdd()">
                 <div class="item item-input-inset">
                     <label class="item-input-wrapper">
-                        <input type="text" form='excludeAdd' detect-focus on-focus="scrollContentToBottom()" ng-click='shouldNotFocusOnBlur()' on-blur="scrollContentToBottom()" focus-on-blur="focusManager.focusInputOnBlur" ng-model='excludeIngredient' onfocus="this.value=''">
+                        <input type="text" id='excludeAddInput' form='excludeAdd' detect-focus on-focus="scrollContentToBottom()" ng-click='shouldNotFocusOnBlur()' on-blur="scrollContentToBottom()" focus-on-blur="focusManager.focusInputOnBlur" ng-model='excludeIngredient' onfocus="this.value=''">
                     </label>
-                    <input type='submit' class= 'button button-clear button-outline button-small' value='Add'>
+                    <input type='submit' onfocus="javascript:document.getElementById('excludeAddInput').focus()" class= 'button button-clear button-outline button-small' value='Add'>
                 </div>
             </form>
             </span>

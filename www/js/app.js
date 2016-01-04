@@ -90,107 +90,45 @@ var app = angular.module('starter', ['ionic', 'ngSanitize'])
     $urlRouterProvider.otherwise('/app/home');
 });
 
-app.directive('focusMe', function($timeout) {
-  return {
-    scope: { trigger: '=focusMe' },
-    link: function(scope, element) {
-      scope.$watch('trigger', function(value) {
-        if(value === true) { 
-          //console.log('trigger',value);
-          //$timeout(function() {
-            element[0].focus();
-            scope.trigger = false;
-          //});
-        }
-      });
-    }
-  };
-});
-
-app.controller('AppCtrl', function ($rootScope, $timeout, $scope, $ionicModal, $timeout) {
-
-    // With the new view caching in Ionic, Controllers are only called
-    // when they are recreated or on app start, instead of every page change.
-    // To listen for when this page is active (for example, to refresh data),
-    // listen for the $ionicView.enter event:
-    //$scope.$on('$ionicView.enter', function(e) {
-    //});
-
-    // Form data for the login modal
-    $scope.loginData = {};
-
-    // Create the login modal that we will use later
+app.controller('AppCtrl', function ($rootScope, $scope, $ionicModal) {
     $ionicModal.fromTemplateUrl('pages/filter.html', {
         scope: $scope
     }).then(function (modal) {
         $scope.modal = modal;
     });
-
-    // Triggered in the filter modal to close it
     $scope.closeFilter = function () {
         $scope.modal.hide();
     };
-
-    // Open the login modal
     $scope.filter = function () {
         $scope.modal.show();
     };
 
 })
 
-app.directive("detectFocus", function () {
-        return {
-            restrict: "A",
-            scope: {
-                onFocus: '&onFocus',
-                onBlur: '&onBlur',
-                focusOnBlur: '=focusOnBlur'
-            },
-            link: function (scope, elem) {
-
-                elem.on("focus", function () {
-                    scope.onFocus();
-                    scope.focusOnBlur = true;  //note the reassignment here, reason why I set '=' instead of '@' above.
-                });
-
-                elem.on("blur", function () {
-                    scope.onBlur();
-                    if (scope.focusOnBlur)
-                        elem[0].focus();
-                });
-            }
-        }
-    });
 
 app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", function ($scope, $http, $rootScope, $timeout) {
     if (typeof $rootScope.inventory === 'undefined') {
-        $rootScope.inventory = []; //User's Ingredients
+        //Initialize variables if not already existent
+        $rootScope.inventory = [];
         $rootScope.excludeArray = [];
         $rootScope.recipeArray = [];
-        $scope.url = "http://www.recipepuppy.com/api/?i="; //Initial URL
-        $scope.ingredient = 'Enter Ingredient Here!'; //Initial content of Input Box
-        $rootScope.pageCounter = 1; //Increases api page, incremented upon reaching bottom of page
+        $scope.url = "http://www.recipepuppy.com/api/?i=";
+        $scope.ingredient = 'Enter Ingredient Here!'; 
+        $rootScope.pageCounter = 1;
         $rootScope.maxMissing = 4;
         $rootScope.excludeIngredient = 'Enter Here!'
         $rootScope.excludeToggle = false
-        $scope.focusManager = { focusInputOnBlur: true};
     }
-    $scope.shouldNotFocusOnBlur = function() {
-      $scope.focusManager.focusOnBlur = false;
-      console.log('hi')
-    };
-    $scope.ingredient = 'Enter Ingredient Here!'; //Initial content of Input Box
-    $scope.shouldShowDelete = false; //Trash icon setting in pantry add
-    $scope.listCanSwipe = true //Trash icon setting in pantry add
+    $scope.ingredient = 'Enter Ingredient Here!';
+    $scope.shouldShowDelete = false;
+    $scope.listCanSwipe = true
     $scope.add = function() {
-        if ($rootScope.inventory.indexOf(this.ingredient) < 0 && this.ingredient != '') {
+        if ($rootScope.inventory.indexOf(this.ingredient) < 0 && this.ingredient!= '' && this.ingredient != 'Enter Ingredient Here!') {
             $rootScope.inventory.push(this.ingredient);
             this.ingredient = ''; //Resets text box
             $rootScope.pageCounter = 1;
             $rootScope.recipeArray = [];
         }
-        focusInput=true
-
     };
     $rootScope.excludeAdd = function() {
         if ($rootScope.excludeArray.indexOf(this.excludeIngredient) < 0 && this.excludeIngredient != '' && this.excludeIngredient != 'Enter Here!') {
@@ -210,12 +148,13 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
         $rootScope.inventory.forEach(function (item) {
             $scope.url += (item + ',')
         })
-        $http.get($scope.url.slice(0, -1) + '&p=' + $rootScope.pageCounter) //Slices api correctly
+        $http.get($scope.url.slice(0, -1) + '&p=' + $rootScope.pageCounter)
             .success(function (data) {
             $rootScope.pageCounter += 1
             data.results.forEach(function (recipe) { //Eval. each recipe
                 recipe.ingredientArray = recipe.ingredients.split(", ");
                 if (recipe.thumbnail === '') {
+                    //Assigns recipe thumbnail if it doesn't come with one
                     recipe.thumbnail = 'img/missingThumbnail.png';
                 }
                 recipe.presentIngredients = {}
@@ -227,16 +166,20 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
                         }
                     })
                 })
+                //Add ingredient to missingIngredient array if not in user inv.
                 recipe.ingredientArray.forEach(function (item) {
-                    if (!recipe.presentIngredients[item]) { //if recipe ingred. is not present in user inv.
-                        recipe.missingIngredients.push(item); //add recipe ingred. to missing igred. array
+                    if (!recipe.presentIngredients[item]) {
+                        recipe.missingIngredients.push(item);
                     }
                 });
+                //Displays 'Nothing!' if recipe has no missing ingredients 
                 if (recipe.missingIngredients.length === 0) { 
                     recipe.missingIngredients.push('Nothing!')
                 }
+                //Display's recipe to page
                 $rootScope.recipeArray.push(recipe);
             });
+            //Removes recipes with user's undesired ingredients
             if ($rootScope.excludeArray.length > 0) {
                 for(i=$rootScope.recipeArray.length-1; i>=0; i--) {
                     $rootScope.excludeArray.forEach(function(excludeIngredient) {
@@ -247,6 +190,7 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
                     })
                 }
             }
+            //Eliminates recipes with too many missing ingredients
             for (i=$rootScope.recipeArray.length-1; i>=0; i--) {
                 if ($rootScope.recipeArray[i].missingIngredients.length >= $rootScope.maxMissing) {
                     $rootScope.recipeArray.splice(i,1)
@@ -264,13 +208,14 @@ app.controller('PantryCtrl', ["$scope", "$http", "$rootScope", "$timeout", funct
         })
     }
     $rootScope.openLink = function (link) {
-        // Open links in cordova's InAppBrowser on mobile devices
+        //Open links in cordova's InAppBrowser on mobile devices
         if (ionic.Platform.isIOS() || ionic.Platform.isAndroid() || ionic.Platform.isWindowsPhone()) {
             window.open = cordova.InAppBrowser.open;    
         }
         window.open(link, '_blank', 'location=yes');
     }
     $scope.checkAmount = function() {
+        //Populates page with recipes
         if ($rootScope.recipeArray.length < 15) {
             $scope.getData();
             $scope.$broadcast('scroll.infiniteScrollComplete');

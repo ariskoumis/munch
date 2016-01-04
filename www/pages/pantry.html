@@ -19,9 +19,9 @@
             <form id = 'pantryAdd' ng-submit="add()">
                 <div class="item item-input-inset">
                     <label class="item-input-wrapper">
-                        <input type="text" form='pantryAdd' ng-model='ingredient' onfocus="this.value=''">
+                        <input type="text" form='pantryAdd' id='pantryAddInput' ng-model='ingredient' onfocus="this.value=''">
                     </label>
-                    <input type='submit' class='button button-clear button-outline button-small' value='Add'>
+                    <input type='submit' onfocus="javascript:document.getElementById('pantryAddInput').focus()" class='button button-clear button-outline button-small' value='Add'>
                 </div>
             </form>
             </span>
