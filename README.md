@@ -1,8 +1,8 @@
 #Introduction
 Welcome! Munch is an open source hybrid app designed by me, using [Ionic](http://ionicframework.com/) and [Apache Cordova](https://cordova.apache.org/). The app presents a user with recipes they can make given their inventory. Recipes are pulled from the [Recipe Puppy API](http://www.recipepuppy.com/about/api/).
 
-iOS: https://itunes.apple.com/us/app/munch-dynamic-recipes/id1063267204?mt=8 
-Android: https://play.google.com/store/apps/details?id=com.ariskoumis.munch_recipes 
+iOS: https://itunes.apple.com/us/app/munch-dynamic-recipes/id1063267204?mt=8 <br />
+Android: https://play.google.com/store/apps/details?id=com.ariskoumis.munch_recipes <br />
 
 #Emulation
 1. Install [nodeJS](https://nodejs.org/en/).
